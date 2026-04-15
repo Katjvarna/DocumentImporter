@@ -14,7 +14,7 @@ public class MainViewModel : BaseViewModel
     private readonly IDocumentRepository _repository;
     private readonly ICsvImportService _csvImportService;
 
-    // ObservableCollection automatycznie odświeża UI gdy dodasz/usuniesz elementy
+    // ObservableCollection automatycznie odświeża UI gdy dodajemy/usuwamy elementy
     public ObservableCollection<Document> Documents { get; } = new();
 
     // Właściwość filtrowania
@@ -60,8 +60,6 @@ public class MainViewModel : BaseViewModel
         set => SetProperty(ref _statusMessage, value);
     }
 
-    // Komendy — odpowiednik event handlerów ale w MVVM
-    // Dodaj nowe komendy obok istniejących:
     public ICommand ImportCommand { get; }
     public ICommand ShowDetailCommand { get; }
     public ICommand LoadFromDatabaseCommand { get; }
