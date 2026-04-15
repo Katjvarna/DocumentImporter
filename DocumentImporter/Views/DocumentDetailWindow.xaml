@@ -1,0 +1,80 @@
+﻿<Window x:Class="DocumentImporter.Views.DocumentDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Szczegóły dokumentu"
+        Height="500" Width="700"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Nagłówek dokumentu -->
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Document.Type}"
+                   FontSize="22" FontWeight="Bold" Margin="0,0,0,8"/>
+
+        <!-- Informacje o dokumencie -->
+        <Border Grid.Row="1" Background="#F5F5F5" CornerRadius="6" Padding="12" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold" Text="ID: "/><Run Text="{Binding Document.Id}"/></TextBlock>
+                    <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold" Text="Data: "/><Run Text="{Binding Document.Date, StringFormat=dd.MM.yyyy}"/></TextBlock>
+                    <TextBlock><Run FontWeight="Bold" Text="Miasto: "/><Run Text="{Binding Document.City}"/></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold" Text="Imię: "/><Run Text="{Binding Document.FirstName}"/></TextBlock>
+                    <TextBlock Margin="0,0,0,4"><Run FontWeight="Bold" Text="Nazwisko: "/><Run Text="{Binding Document.LastName}"/></TextBlock>
+                    <TextBlock><Run FontWeight="Bold" Text="Liczba pozycji: "/><Run Text="{Binding ItemsCount, Mode=OneWay}"/></TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Tabela pozycji -->
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Document.Items}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column"
+                  Margin="0,0,0,12">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Lp." Binding="{Binding Ordinal}" Width="50"/>
+                <DataGridTextColumn Header="Produkt" Binding="{Binding Product}" Width="150"/>
+                <DataGridTextColumn Header="Ilość" Binding="{Binding Quantity}" Width="60"/>
+                <DataGridTextColumn Header="Jednostkowa wartość netto" 
+                     Binding="{Binding Price, StringFormat='{}{0:F2} zł'}" Width="160"/>
+                <DataGridTextColumn Header="VAT %" 
+                     Binding="{Binding TaxRate, StringFormat='{}{0}%'}" Width="70"/>
+                <DataGridTextColumn Header="Jednostkowa wartość brutto" 
+                    Binding="{Binding GrossValue, StringFormat='{}{0:F2} zł'}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Podsumowanie -->
+        <Border Grid.Row="3" Background="#EEF4FF" CornerRadius="6" Padding="12">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Margin="0,0,24,0">
+                    <Run FontWeight="Bold" Text="Suma Netto: "/>
+                    <Run Text="{Binding TotalNet, StringFormat='{}{0:F2} zł', Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,24,0">
+                    <Run FontWeight="Bold" Text="VAT: "/>
+                    <Run Text="{Binding TotalTax, StringFormat='{}{0:F2} zł', Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run FontWeight="Bold" Text="Suma Brutto: "/>
+                    <Run Text="{Binding TotalGross, StringFormat='{}{0:F2} zł', Mode=OneWay}"/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
